@@ -22,6 +22,13 @@
         <% end %>
       </div>
     <% end %>
+    <% if (suggestion = local_assigns[:suggestions]&.[](transaction.id)) %>
+      <%= button_to transaction_path(transaction), method: :patch,
+            params: { transaction: { category_id: suggestion.id } },
+            class: "mt-1 text-xs rounded-full border border-dashed border-emerald-400 text-emerald-700 px-2 py-0.5 hover:bg-emerald-50" do %>
+        Suggested: <%= suggestion.name %>
+      <% end %>
+    <% end %>
   </td>
   <td class="px-5 py-3 text-right"><%= amount_tag(transaction) %></td>
   <td class="px-5 py-3 text-right whitespace-nowrap">

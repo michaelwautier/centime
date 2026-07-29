@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_29_114654) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_29_114939) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -49,6 +49,29 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_29_114654) do
     t.check_constraint "status::text = ANY (ARRAY['pending'::character varying, 'linked'::character varying, 'expiring'::character varying, 'expired'::character varying, 'revoked'::character varying, 'paused'::character varying, 'error'::character varying]::text[])", name: "bank_connections_status_check"
   end
 
+  create_table "bayes_category_stats", force: :cascade do |t|
+    t.bigint "category_id", null: false
+    t.datetime "created_at", null: false
+    t.integer "document_count", default: 0, null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["category_id"], name: "index_bayes_category_stats_on_category_id"
+    t.index ["user_id", "category_id"], name: "index_bayes_category_stats_on_user_id_and_category_id", unique: true
+    t.index ["user_id"], name: "index_bayes_category_stats_on_user_id"
+  end
+
+  create_table "bayes_tokens", force: :cascade do |t|
+    t.bigint "category_id", null: false
+    t.integer "count", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.string "token", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["category_id"], name: "index_bayes_tokens_on_category_id"
+    t.index ["user_id", "category_id", "token"], name: "index_bayes_tokens_on_user_id_and_category_id_and_token", unique: true
+    t.index ["user_id"], name: "index_bayes_tokens_on_user_id"
+  end
+
   create_table "categories", force: :cascade do |t|
     t.datetime "archived_at"
     t.string "color", default: "#6b7280", null: false
@@ -60,6 +83,31 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_29_114654) do
     t.index ["user_id", "name", "kind"], name: "index_categories_on_user_id_and_name_and_kind", unique: true
     t.index ["user_id"], name: "index_categories_on_user_id"
     t.check_constraint "kind::text = ANY (ARRAY['income'::character varying, 'expense'::character varying]::text[])", name: "categories_kind_check"
+  end
+
+  create_table "categorization_rules", force: :cascade do |t|
+    t.bigint "category_id", null: false
+    t.datetime "created_at", null: false
+    t.string "matcher_type", default: "contains", null: false
+    t.string "pattern", null: false
+    t.integer "position", default: 0, null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["category_id"], name: "index_categorization_rules_on_category_id"
+    t.index ["user_id"], name: "index_categorization_rules_on_user_id"
+    t.check_constraint "matcher_type::text = ANY (ARRAY['contains'::character varying, 'equals'::character varying]::text[])", name: "categorization_rules_matcher_type_check"
+  end
+
+  create_table "merchant_category_mappings", force: :cascade do |t|
+    t.bigint "category_id", null: false
+    t.datetime "created_at", null: false
+    t.integer "hit_count", default: 1, null: false
+    t.string "merchant_key", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["category_id"], name: "index_merchant_category_mappings_on_category_id"
+    t.index ["user_id", "merchant_key"], name: "index_merchant_category_mappings_on_user_id_and_merchant_key", unique: true
+    t.index ["user_id"], name: "index_merchant_category_mappings_on_user_id"
   end
 
   create_table "pay_charges", force: :cascade do |t|
@@ -201,7 +249,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_29_114654) do
 
   add_foreign_key "bank_accounts", "bank_connections"
   add_foreign_key "bank_connections", "users"
+  add_foreign_key "bayes_category_stats", "categories"
+  add_foreign_key "bayes_category_stats", "users"
+  add_foreign_key "bayes_tokens", "categories"
+  add_foreign_key "bayes_tokens", "users"
   add_foreign_key "categories", "users"
+  add_foreign_key "categorization_rules", "categories"
+  add_foreign_key "categorization_rules", "users"
+  add_foreign_key "merchant_category_mappings", "categories"
+  add_foreign_key "merchant_category_mappings", "users"
   add_foreign_key "pay_charges", "pay_customers", column: "customer_id"
   add_foreign_key "pay_charges", "pay_subscriptions", column: "subscription_id"
   add_foreign_key "pay_payment_methods", "pay_customers", column: "customer_id"

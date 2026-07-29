@@ -23,6 +23,7 @@ module BankAccounts
       pending = Array(payload.dig("transactions", "pending"))
 
       inserted_ids = insert_new(booked, pending)
+      categorize(inserted_ids)
       settle_booked(booked)
       refresh_balance
       @connection.update!(last_synced_at: Time.current, last_sync_error: nil)
@@ -59,6 +60,18 @@ module BankAccounts
         returning: [ :id ]
       )
       result.rows.flatten
+    end
+
+    def categorize(inserted_ids)
+      return if inserted_ids.empty?
+
+      engine = Categorization::Engine.new(@connection.user)
+      Transaction.where(id: inserted_ids).find_each do |transaction|
+        result = engine.call(transaction)
+        next if result.category_id.nil?
+
+        transaction.update_columns(category_id: result.category_id, categorization_source: result.source)
+      end
     end
 
     # A transaction that was pending in an earlier sync books later, keeping

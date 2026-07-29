@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   resource :dashboard, only: :show
   resources :transactions
   resources :categories, except: :show
+  resources :categorization_rules, only: [ :index, :create, :destroy ]
 
   resource :subscription, only: :show do
     post :checkout

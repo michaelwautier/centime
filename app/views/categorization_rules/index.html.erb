@@ -1,0 +1,45 @@
+<% content_for :title, "Rules · Centime" %>
+
+<h1 class="text-2xl font-bold mb-2">Categorization rules</h1>
+<p class="text-sm text-gray-500 mb-6">Rules run before any learned suggestion — "always put this merchant in that category".</p>
+
+<div class="rounded-lg bg-white border border-gray-200 p-5 mb-6 max-w-2xl">
+  <%= form_with model: @rule, url: categorization_rules_path, class: "flex flex-wrap items-end gap-3" do |f| %>
+    <div>
+      <%= f.label :pattern, "If text", class: "block text-xs font-medium text-gray-500 mb-1" %>
+      <%= f.text_field :pattern, placeholder: "e.g. carrefour", required: true, class: "rounded-md border-gray-300 text-sm" %>
+    </div>
+    <div>
+      <%= f.label :matcher_type, "Match", class: "block text-xs font-medium text-gray-500 mb-1" %>
+      <%= f.select :matcher_type, [ %w[contains contains], %w[equals equals] ], {}, class: "rounded-md border-gray-300 text-sm" %>
+    </div>
+    <div>
+      <%= f.label :category_id, "Category", class: "block text-xs font-medium text-gray-500 mb-1" %>
+      <%= f.collection_select :category_id, current_user.categories.active.ordered, :id, :name, {}, class: "rounded-md border-gray-300 text-sm" %>
+    </div>
+    <%= f.submit "Add rule", class: "rounded-md bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700 cursor-pointer" %>
+  <% end %>
+  <% if @rule.errors.any? %>
+    <p class="mt-2 text-sm text-red-700"><%= @rule.errors.full_messages.to_sentence %></p>
+  <% end %>
+</div>
+
+<div class="rounded-lg bg-white border border-gray-200 max-w-2xl">
+  <% if @rules.any? %>
+    <ul>
+      <% @rules.each do |rule| %>
+        <li class="flex items-center justify-between px-5 py-3 border-b border-gray-50 last:border-0 text-sm">
+          <span class="text-gray-700">
+            If text <span class="font-medium"><%= rule.matcher_type %></span>
+            “<span class="font-medium"><%= rule.pattern %></span>”
+            → <span class="font-medium"><%= rule.category.name %></span>
+          </span>
+          <%= button_to "Remove", categorization_rule_path(rule), method: :delete,
+                class: "text-xs text-gray-400 hover:text-red-600" %>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p class="text-sm text-gray-400 px-5 py-8 text-center">No rules yet.</p>
+  <% end %>
+</div>

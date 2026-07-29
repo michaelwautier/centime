@@ -10,4 +10,8 @@ class User < ApplicationRecord
   has_many :transactions, dependent: :destroy
   has_many :bank_connections, dependent: :destroy
   has_many :bank_accounts, through: :bank_connections
+  has_many :categorization_rules, dependent: :destroy
+  has_many :merchant_category_mappings, dependent: :destroy
+  has_many :bayes_tokens, dependent: :destroy
+  has_many :bayes_category_stats, dependent: :destroy
 end

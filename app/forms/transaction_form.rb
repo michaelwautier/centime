@@ -29,6 +29,7 @@ class TransactionForm
   def save
     return false unless valid?
 
+    previous_category = transaction.persisted? ? transaction.category : nil
     transaction.assign_attributes(
       amount_cents: signed_cents,
       currency: user.currency,
@@ -39,6 +40,9 @@ class TransactionForm
       categorization_source: category_id ? "manual" : "none"
     )
     transaction.save!
+    if transaction.category.present? && transaction.category != previous_category
+      CategorizationLearnJob.perform_later(transaction, transaction.category, previous_category)
+    end
     true
   end
 
