@@ -82,3 +82,5 @@ gem "avo", "~> 4.0"
 gem "hotwire_native_rails", "~> 0.4.4"
 
 gem "browser", "~> 6.2"
+
+gem "rack-attack", "~> 6.8"

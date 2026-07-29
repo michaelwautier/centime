@@ -90,6 +90,7 @@ production:
     database: centime_production
     username: centime
     password: <%= ENV["CENTIME_DATABASE_PASSWORD"] %>
+    host: <%= ENV.fetch("DB_HOST", "localhost") %>
   cache:
     <<: *primary_production
     database: centime_production_cache
