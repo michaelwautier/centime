@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html <%= platform_identifier %>>
   <head>
-    <title><%= content_for(:title) || "Centime" %></title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title><%= page_title %></title>
+    <%= viewport_meta_tag %>
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="application-name" content="Centime">
     <meta name="mobile-web-app-capable" content="yes">
@@ -24,7 +24,8 @@
   </head>
 
   <body class="bg-gray-50 min-h-screen">
-    <% if user_signed_in? %>
+    <%# The native shells provide their own tab bar — hide web chrome there. %>
+    <% if user_signed_in? && !turbo_native_app? %>
       <nav class="bg-white border-b border-gray-200">
         <div class="container mx-auto px-5 h-14 flex items-center justify-between">
           <div class="flex items-center gap-6">

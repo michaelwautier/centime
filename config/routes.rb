@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  draw(:hotwire_native)
   mount_avo
   devise_for :users, controllers: { registrations: "users/registrations" }
 

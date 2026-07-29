@@ -78,3 +78,7 @@ gem "stripe", "~> 19.3"
 
 gem "csv", "~> 3.3"
 gem "avo", "~> 4.0"
+
+gem "hotwire_native_rails", "~> 0.4.4"
+
+gem "browser", "~> 6.2"

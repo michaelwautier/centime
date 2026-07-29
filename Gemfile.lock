@@ -107,6 +107,7 @@ GEM
       msgpack (~> 1.2)
     brakeman (8.0.5)
       racc
+    browser (6.2.0)
     builder (3.3.0)
     bundler-audit (0.9.3)
       bundler (>= 1.2.0)
@@ -167,6 +168,7 @@ GEM
     globalid (1.4.0)
       activesupport (>= 6.1)
     hashdiff (1.2.1)
+    hotwire_native_rails (0.4.4)
     i18n (1.15.2)
       concurrent-ruby (~> 1.0)
     importmap-rails (2.2.3)
@@ -478,6 +480,7 @@ DEPENDENCIES
   avo (~> 4.0)
   bootsnap
   brakeman
+  browser (~> 6.2)
   bundler-audit
   capybara
   chartkick (~> 5.2)
@@ -486,6 +489,7 @@ DEPENDENCIES
   debug
   devise (~> 5.0)
   factory_bot_rails
+  hotwire_native_rails (~> 0.4.4)
   importmap-rails
   kamal
   pay (~> 11.6)
@@ -534,6 +538,7 @@ CHECKSUMS
   bindex (0.8.1) sha256=7b1ecc9dc539ed8bccfc8cb4d2732046227b09d6f37582ff12e50a5047ceb17e
   bootsnap (1.24.6) sha256=c60bab88c70332290f0a2636a288f675299eb4f804a02a3c085b42eca9da164a
   brakeman (8.0.5) sha256=03735f9690d3fd4b32d66aacbf0a6d15a84266bdd06b32c05c8ecc8f6021d2be
+  browser (6.2.0) sha256=281d5295788825c9396427c292c2d2be0a5c91875c93c390fde6e5d61a5ace2d
   builder (3.3.0) sha256=497918d2f9dca528fdca4b88d84e4ef4387256d984b8154e9d5d3fe5a9c8835f
   bundler-audit (0.9.3) sha256=81c8766c71e47d0d28a0f98c7eed028539f21a6ea3cd8f685eb6f42333c9b4e9
   capybara (3.40.0) sha256=42dba720578ea1ca65fd7a41d163dd368502c191804558f6e0f71b391054aeef
@@ -561,6 +566,7 @@ CHECKSUMS
   fugit (1.13.0) sha256=a4f093fce740da52f216740a5041e2a594ea763cdb89e8b2754ca4399634ab18
   globalid (1.4.0) sha256=037f12fbf1d9d7a014d501c2d5c77356fd4ddd96d7a7991d6700bba96706f427
   hashdiff (1.2.1) sha256=9c079dbc513dfc8833ab59c0c2d8f230fa28499cc5efb4b8dd276cf931457cd1
+  hotwire_native_rails (0.4.4) sha256=dd3f68c9d20abce082a7c8b0300ee82444e528391d71aafd1ec10a5490a11ce6
   i18n (1.15.2) sha256=00f9eb62412fe593b2a65a97daa75300d37abb8f7202ec748e94b6d46a9dd1b5
   importmap-rails (2.2.3) sha256=7101be2a4dc97cf1558fb8f573a718404c5f6bcfe94f304bf1f39e444feeb16a
   inline_svg (1.10.0) sha256=5b652934236fd9f8adc61f3fd6e208b7ca3282698b19f28659971da84bf9a10f
