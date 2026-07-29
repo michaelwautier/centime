@@ -23,8 +23,32 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
-    <main class="container mx-auto mt-28 px-5 flex">
+  <body class="bg-gray-50 min-h-screen">
+    <% if user_signed_in? %>
+      <nav class="bg-white border-b border-gray-200">
+        <div class="container mx-auto px-5 h-14 flex items-center justify-between">
+          <div class="flex items-center gap-6">
+            <%= link_to "Centime", root_path, class: "font-bold text-lg text-emerald-700" %>
+            <%= link_to "Dashboard", root_path, class: "text-sm text-gray-600 hover:text-gray-900" %>
+            <%= link_to "Transactions", transactions_path, class: "text-sm text-gray-600 hover:text-gray-900" %>
+            <%= link_to "Categories", categories_path, class: "text-sm text-gray-600 hover:text-gray-900" %>
+          </div>
+          <div class="flex items-center gap-4">
+            <span class="text-sm text-gray-500"><%= current_user.email %></span>
+            <%= button_to "Sign out", destroy_user_session_path, method: :delete,
+                  class: "text-sm text-gray-600 hover:text-gray-900" %>
+          </div>
+        </div>
+      </nav>
+    <% end %>
+
+    <main class="container mx-auto mt-8 px-5 pb-16">
+      <% flash.each do |type, message| %>
+        <div class="mb-4 rounded-md px-4 py-3 text-sm <%= type.to_s == "alert" ? "bg-red-50 text-red-800" : "bg-emerald-50 text-emerald-800" %>">
+          <%= message %>
+        </div>
+      <% end %>
+
       <%= yield %>
     </main>
   </body>

@@ -1,0 +1,32 @@
+<tr id="<%= dom_id(transaction) %>" class="border-b border-gray-50 last:border-0">
+  <td class="px-5 py-3 whitespace-nowrap text-gray-500"><%= l transaction.booked_on %></td>
+  <td class="px-5 py-3">
+    <p class="font-medium text-gray-900"><%= transaction.display_name %></p>
+    <% if transaction.merchant_name.present? && transaction.description.present? %>
+      <p class="text-xs text-gray-500"><%= transaction.description %></p>
+    <% end %>
+  </td>
+  <td class="px-5 py-3">
+    <%= form_with model: transaction, data: { controller: "autosubmit" } do |f| %>
+      <div class="flex items-center gap-2">
+        <%= f.select :category_id,
+              options_from_collection_for_select(
+                transaction.user.categories.active.where(kind: transaction.expense? ? "expense" : "income").ordered,
+                :id, :name, transaction.category_id
+              ),
+              { include_blank: "Uncategorized" },
+              class: "rounded-md border-gray-300 text-sm py-1",
+              data: { action: "change->autosubmit#submit" } %>
+        <% unless transaction.categorized_by_manual? || transaction.categorized_by_none? %>
+          <span class="text-[10px] uppercase tracking-wide rounded bg-blue-50 text-blue-700 px-1.5 py-0.5">auto</span>
+        <% end %>
+      </div>
+    <% end %>
+  </td>
+  <td class="px-5 py-3 text-right"><%= amount_tag(transaction) %></td>
+  <td class="px-5 py-3 text-right whitespace-nowrap">
+    <%= link_to "Edit", edit_transaction_path(transaction), class: "text-gray-400 hover:text-gray-700 text-xs", data: { turbo_frame: "_top" } %>
+    <%= button_to "Delete", transaction_path(transaction), method: :delete, form: { data: { turbo_confirm: "Delete this transaction?" }, class: "inline" },
+          class: "text-gray-400 hover:text-red-600 text-xs ml-2" %>
+  </td>
+</tr>

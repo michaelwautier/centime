@@ -1,0 +1,4 @@
+<% content_for :title, "Add transaction · Centime" %>
+
+<h1 class="text-2xl font-bold mb-6">Add transaction</h1>
+<%= render "form", form: @form, url: transactions_path, method: :post %>

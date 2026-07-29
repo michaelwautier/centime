@@ -10,6 +10,7 @@ RSpec.configure do |config|
     driven_by :cuprite, screen_size: [ 1400, 1000 ], options: {
       browser_path: CHROMIUM_PATH,
       browser_options: { "no-sandbox" => nil },
+      js_errors: true,
       process_timeout: 15,
       timeout: 10,
       inspector: ENV["INSPECTOR"].present?,

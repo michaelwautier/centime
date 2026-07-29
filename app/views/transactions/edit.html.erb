@@ -1,0 +1,4 @@
+<% content_for :title, "Edit transaction · Centime" %>
+
+<h1 class="text-2xl font-bold mb-6">Edit transaction</h1>
+<%= render "form", form: @form, url: transaction_path(@form.transaction), method: :patch %>

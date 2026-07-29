@@ -69,3 +69,6 @@ group :test do
   gem "webmock"
   gem "simplecov", require: false
 end
+
+gem "devise", "~> 5.0"
+gem "chartkick", "~> 5.2"

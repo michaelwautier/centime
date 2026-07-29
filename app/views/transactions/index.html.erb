@@ -1,0 +1,44 @@
+<% content_for :title, "Transactions · Centime" %>
+
+<div class="flex items-center justify-between mb-6">
+  <h1 class="text-2xl font-bold">Transactions</h1>
+  <%= link_to "Add transaction", new_transaction_path,
+        class: "rounded-md bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700" %>
+</div>
+
+<%= turbo_frame_tag "transactions", data: { turbo_action: "advance" } do %>
+  <div class="flex items-center gap-3 mb-4">
+    <%= form_with url: transactions_path, method: :get, class: "flex items-center gap-2" do |f| %>
+      <%= f.month_field :month, value: @month.strftime("%Y-%m"), onchange: "this.form.requestSubmit()",
+            class: "rounded-md border-gray-300 text-sm" %>
+      <%= f.hidden_field :filter, value: params[:filter] %>
+    <% end %>
+    <% if params[:filter] == "uncategorized" %>
+      <%= link_to "Show all", transactions_path(month: @month.strftime("%Y-%m")), class: "text-sm text-emerald-700 hover:underline" %>
+    <% else %>
+      <%= link_to "Review uncategorized", transactions_path(month: @month.strftime("%Y-%m"), filter: "uncategorized"),
+            class: "text-sm text-emerald-700 hover:underline" %>
+    <% end %>
+  </div>
+
+  <div class="rounded-lg bg-white border border-gray-200 overflow-x-auto">
+    <% if @transactions.any? %>
+      <table class="min-w-full text-sm">
+        <thead class="text-left text-xs text-gray-500 uppercase border-b border-gray-100">
+          <tr>
+            <th class="px-5 py-3">Date</th>
+            <th class="px-5 py-3">Description</th>
+            <th class="px-5 py-3">Category</th>
+            <th class="px-5 py-3 text-right">Amount</th>
+            <th class="px-5 py-3"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <%= render partial: "transactions/transaction", collection: @transactions %>
+        </tbody>
+      </table>
+    <% else %>
+      <p class="text-sm text-gray-400 px-5 py-10 text-center">No transactions for this month.</p>
+    <% end %>
+  </div>
+<% end %>

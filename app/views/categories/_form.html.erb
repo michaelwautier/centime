@@ -1,0 +1,35 @@
+<%= form_with model: category, class: "space-y-5 max-w-lg" do |f| %>
+  <% if category.errors.any? %>
+    <div class="rounded-md bg-red-50 px-4 py-3 text-sm text-red-800">
+      <ul class="list-disc pl-4">
+        <% category.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= f.label :name, class: "block text-sm font-medium text-gray-700 mb-1" %>
+    <%= f.text_field :name, required: true, class: "w-full rounded-md border-gray-300" %>
+  </div>
+
+  <div class="flex gap-3">
+    <% Category.kinds.each_key do |kind| %>
+      <label class="flex items-center gap-2 text-sm">
+        <%= f.radio_button :kind, kind, class: "text-emerald-600" %>
+        <%= kind.capitalize %>
+      </label>
+    <% end %>
+  </div>
+
+  <div>
+    <%= f.label :color, class: "block text-sm font-medium text-gray-700 mb-1" %>
+    <%= f.color_field :color, class: "h-9 w-16 rounded-md border-gray-300" %>
+  </div>
+
+  <div class="flex items-center gap-3">
+    <%= f.submit class: "rounded-md bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700 cursor-pointer" %>
+    <%= link_to "Cancel", categories_path, class: "text-sm text-gray-500 hover:text-gray-800" %>
+  </div>
+<% end %>
