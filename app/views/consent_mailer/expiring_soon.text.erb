@@ -1,0 +1,8 @@
+Hello,
+
+Bank consent for <%= @bank_connection.institution_name %> expires on <%= l @bank_connection.consent_expires_at.to_date %>.
+After that date, Centime can no longer sync transactions from this bank.
+
+Renew the connection: <%= bank_connections_url %>
+
+— Centime

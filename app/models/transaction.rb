@@ -1,6 +1,7 @@
 class Transaction < ApplicationRecord
   belongs_to :user
   belongs_to :category, optional: true
+  belongs_to :bank_account, optional: true
 
   enum :source, { manual: "manual", bank_sync: "bank_sync" }, prefix: true
   enum :categorization_source,

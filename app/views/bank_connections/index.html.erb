@@ -1,0 +1,73 @@
+<% content_for :title, "Banks · Centime" %>
+
+<div class="flex items-center justify-between mb-6">
+  <h1 class="text-2xl font-bold">Bank connections</h1>
+  <%= link_to "Connect a bank", new_bank_connection_path,
+        class: "rounded-md bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700" %>
+</div>
+
+<% if @bank_connections.empty? %>
+  <div class="rounded-lg bg-white border border-gray-200 p-10 text-center">
+    <p class="text-gray-500 mb-4">No bank connected yet. Link your bank to import transactions automatically.</p>
+    <%= link_to "Connect a bank", new_bank_connection_path, class: "text-emerald-700 font-medium hover:underline" %>
+  </div>
+<% else %>
+  <div class="space-y-4">
+    <% @bank_connections.each do |connection| %>
+      <div class="rounded-lg bg-white border border-gray-200 p-5">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <% if connection.institution_logo_url.present? %>
+              <%= image_tag connection.institution_logo_url, class: "h-8 w-8 rounded", alt: "" %>
+            <% end %>
+            <div>
+              <p class="font-medium text-gray-900"><%= connection.institution_name %></p>
+              <p class="text-xs text-gray-500">
+                <% case connection.status %>
+                <% when "linked" %>
+                  Synced <%= connection.last_synced_at ? "#{time_ago_in_words(connection.last_synced_at)} ago" : "— first sync pending" %>
+                <% when "expiring" %>
+                  <span class="text-amber-600">Consent expires <%= l connection.consent_expires_at.to_date %> — renew soon</span>
+                <% when "expired" %>
+                  <span class="text-red-600">Consent expired — reconnect to resume syncing</span>
+                <% when "pending" %>
+                  Waiting for bank authorization
+                <% when "paused" %>
+                  <span class="text-amber-600">Paused — upgrade to sync multiple banks</span>
+                <% when "error" %>
+                  <span class="text-red-600">Sync error</span>
+                <% end %>
+              </p>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <% if connection.status_expiring? || connection.status_expired? %>
+              <%= button_to "Reconnect", bank_connections_path(institution_id: connection.institution_id), method: :post,
+                    class: "rounded-md bg-amber-500 px-3 py-1.5 text-sm text-white hover:bg-amber-600" %>
+            <% end %>
+            <% if connection.manual_sync_available? %>
+              <%= button_to "Sync now", sync_bank_connection_path(connection), method: :post,
+                    class: "rounded-md border border-gray-300 px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50" %>
+            <% end %>
+            <%= button_to "Disconnect", bank_connection_path(connection), method: :delete,
+                  form: { data: { turbo_confirm: "Disconnect #{connection.institution_name}? Imported transactions are kept." } },
+                  class: "rounded-md border border-gray-300 px-3 py-1.5 text-sm text-gray-500 hover:text-red-600" %>
+          </div>
+        </div>
+
+        <% if connection.bank_accounts.any? %>
+          <ul class="mt-4 border-t border-gray-100 pt-3 space-y-1">
+            <% connection.bank_accounts.each do |account| %>
+              <li class="flex items-center justify-between text-sm">
+                <span class="text-gray-700"><%= account.display_name %></span>
+                <span class="text-gray-500 tabular-nums">
+                  <%= account.balance_cents ? format_cents(account.balance_cents, account.currency) : "—" %>
+                </span>
+              </li>
+            <% end %>
+          </ul>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+<% end %>

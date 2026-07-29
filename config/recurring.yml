@@ -13,3 +13,11 @@ production:
   clear_solid_queue_finished_jobs:
     command: "SolidQueue::Job.clear_finished_in_batches(sleep_between_batches: 0.3)"
     schedule: every hour at minute 12
+
+  daily_bank_sync:
+    class: DailyBankSyncJob
+    schedule: every day at 6:15am
+
+  consent_expiry_check:
+    class: ConsentExpiryCheckJob
+    schedule: every day at 7:00am
