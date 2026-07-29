@@ -8,6 +8,15 @@ class TransactionsController < ApplicationController
       @transactions = @transactions.uncategorized
       @suggestions = suggested_categories(@transactions)
     end
+
+    respond_to do |format|
+      format.html
+      format.csv do
+        send_data transactions_csv(@transactions),
+          filename: "centime-transactions-#{@month.strftime("%Y-%m")}.csv",
+          type: "text/csv"
+      end
+    end
   end
 
   def new
@@ -20,7 +29,7 @@ class TransactionsController < ApplicationController
     if @form.save
       redirect_to transactions_path, notice: t(".created", default: "Transaction added.")
     else
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_content
     end
   end
 
@@ -66,6 +75,23 @@ class TransactionsController < ApplicationController
     end
   end
 
+  def transactions_csv(transactions)
+    CSV.generate(headers: true) do |csv|
+      csv << [ "Date", "Description", "Merchant", "Category", "Amount", "Currency", "Source" ]
+      transactions.each do |transaction|
+        csv << [
+          transaction.booked_on.iso8601,
+          transaction.description,
+          transaction.merchant_name,
+          transaction.category&.name,
+          format("%.2f", transaction.amount),
+          transaction.currency,
+          transaction.source
+        ]
+      end
+    end
+  end
+
   def suggested_categories(transactions)
     engine = Categorization::Engine.new(current_user)
     categories = current_user.categories.active.index_by(&:id)
@@ -81,7 +107,7 @@ class TransactionsController < ApplicationController
     if @form.save
       redirect_to transactions_path, notice: t(".updated", default: "Transaction updated.")
     else
-      render :edit, status: :unprocessable_entity
+      render :edit, status: :unprocessable_content
     end
   end
 end

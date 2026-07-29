@@ -1,8 +1,10 @@
 Rails.application.routes.draw do
+  mount_avo
   devise_for :users, controllers: { registrations: "users/registrations" }
 
   root "dashboards#show"
   resource :dashboard, only: :show
+  resource :reports, only: :show
   resources :transactions
   resources :categories, except: :show
   resources :categorization_rules, only: [ :index, :create, :destroy ]

@@ -11,7 +11,7 @@ class CategorizationRulesController < ApplicationController
       redirect_to categorization_rules_path, notice: "Rule added."
     else
       @rules = current_user.categorization_rules.includes(:category).ordered
-      render :index, status: :unprocessable_entity
+      render :index, status: :unprocessable_content
     end
   end
 

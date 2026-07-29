@@ -15,7 +15,7 @@ class CategoriesController < ApplicationController
     if @category.save
       redirect_to categories_path, notice: t(".created", default: "Category created.")
     else
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_content
     end
   end
 
@@ -26,7 +26,7 @@ class CategoriesController < ApplicationController
     if @category.update(category_params)
       redirect_to categories_path, notice: t(".updated", default: "Category updated.")
     else
-      render :edit, status: :unprocessable_entity
+      render :edit, status: :unprocessable_content
     end
   end
 

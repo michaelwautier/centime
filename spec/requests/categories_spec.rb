@@ -16,7 +16,7 @@ RSpec.describe "Categories" do
 
     post categories_path, params: { category: { name: "Pets", kind: "expense", color: "#123abc" } }
 
-    expect(response).to have_http_status(:unprocessable_entity)
+    expect(response).to have_http_status(:unprocessable_content)
   end
 
   it "archives instead of destroying" do

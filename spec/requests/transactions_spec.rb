@@ -47,7 +47,7 @@ RSpec.describe "Transactions" do
     it "re-renders on invalid input" do
       post transactions_path, params: { transaction: { amount: "0", direction: "expense" } }
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
     end
   end
 

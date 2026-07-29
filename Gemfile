@@ -75,3 +75,6 @@ gem "chartkick", "~> 5.2"
 
 gem "pay", "~> 11.6"
 gem "stripe", "~> 19.3"
+
+gem "csv", "~> 3.3"
+gem "avo", "~> 4.0"
