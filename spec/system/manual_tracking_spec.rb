@@ -38,7 +38,7 @@ RSpec.describe "Manual expense tracking", type: :system do
 
     visit transactions_path
     row = "##{ActionView::RecordIdentifier.dom_id(transaction)}"
-    expect(page).to have_css(row, text: "auto")
+    expect(page).to have_css("#{row} .bg-blue-50", text: /auto/i)
 
     within(row) { select "Groceries", from: "transaction_category_id" }
 

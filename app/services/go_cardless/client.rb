@@ -1,11 +1,6 @@
 require "net/http"
 
 module GoCardless
-  class Error < StandardError; end
-  class RateLimitedError < Error; end
-  class ConsentExpiredError < Error; end
-  class NotFoundError < Error; end
-
   # Minimal client for the GoCardless Bank Account Data API (v2).
   # https://developer.gocardless.com/bank-account-data/overview
   class Client
