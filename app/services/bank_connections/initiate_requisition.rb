@@ -16,6 +16,8 @@ module BankConnections
     end
 
     def call
+      raise Entitlements::LimitReached unless Entitlements.new(@user).can_add_bank_connection?
+
       connection = @user.bank_connections.create!(
         institution_id: @institution.fetch("id"),
         institution_name: @institution.fetch("name"),

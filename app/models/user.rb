@@ -4,6 +4,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  pay_customer default_payment_processor: :stripe
+
   has_many :categories, dependent: :destroy
   has_many :transactions, dependent: :destroy
   has_many :bank_connections, dependent: :destroy

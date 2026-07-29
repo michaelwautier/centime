@@ -2,8 +2,13 @@
 
 <div class="flex items-center justify-between mb-6">
   <h1 class="text-2xl font-bold">Bank connections</h1>
-  <%= link_to "Connect a bank", new_bank_connection_path,
-        class: "rounded-md bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700" %>
+  <% if Entitlements.new(current_user).can_add_bank_connection? %>
+    <%= link_to "Connect a bank", new_bank_connection_path,
+          class: "rounded-md bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700" %>
+  <% else %>
+    <%= link_to "Upgrade to connect more banks", subscription_path,
+          class: "rounded-md bg-amber-500 px-4 py-2 text-sm font-medium text-white hover:bg-amber-600" %>
+  <% end %>
 </div>
 
 <% if @bank_connections.empty? %>

@@ -6,6 +6,12 @@ Rails.application.routes.draw do
   resources :transactions
   resources :categories, except: :show
 
+  resource :subscription, only: :show do
+    post :checkout
+    get :success
+    get :billing_portal
+  end
+
   get "bank_connections/callback" => "bank_connections/callbacks#show", as: :bank_connections_callback
   resources :bank_connections, only: [ :index, :new, :create, :destroy ] do
     member { post :sync }

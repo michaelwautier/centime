@@ -25,6 +25,8 @@ class BankConnectionsController < ApplicationController
       redirect_url: bank_connections_callback_url
     )
     redirect_to result.link, allow_other_host: true
+  rescue Entitlements::LimitReached
+    redirect_to subscription_path, alert: "The free plan includes one bank connection. Upgrade to Pro to connect more."
   rescue GoCardless::Error => e
     redirect_to bank_connections_path, alert: "Could not connect to the bank: #{e.message}"
   end

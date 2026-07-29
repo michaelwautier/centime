@@ -35,6 +35,7 @@
             <%= link_to "Banks", bank_connections_path, class: "text-sm text-gray-600 hover:text-gray-900" %>
           </div>
           <div class="flex items-center gap-4">
+            <%= link_to "Plan", subscription_path, class: "text-sm text-gray-600 hover:text-gray-900" %>
             <span class="text-sm text-gray-500"><%= current_user.email %></span>
             <%= button_to "Sign out", destroy_user_session_path, method: :delete,
                   class: "text-sm text-gray-600 hover:text-gray-900" %>
