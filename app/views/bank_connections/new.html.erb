@@ -1,14 +1,14 @@
 <% content_for :title, "Connect a bank · Centime" %>
 
 <h1 class="text-2xl font-bold mb-2">Connect a bank</h1>
-<p class="text-sm text-gray-500 mb-6">You'll be redirected to your bank to authorize read-only access (PSD2).</p>
+<p class="text-sm text-gray-500 dark:text-gray-400 mb-6">You'll be redirected to your bank to authorize read-only access (PSD2).</p>
 
 <%= form_with url: new_bank_connection_path, method: :get, class: "mb-6 flex gap-3" do |f| %>
   <%= f.text_field :q, value: @query, placeholder: "Search your bank…",
-        class: "w-full max-w-sm rounded-md border-gray-300 text-sm" %>
+        class: "w-full max-w-sm rounded-md border-gray-300 dark:border-gray-700 text-sm" %>
   <%= f.select :country, [ %w[France FR], %w[Belgium BE], %w[Germany DE], %w[Spain ES], %w[Netherlands NL] ],
-        { selected: @country }, class: "rounded-md border-gray-300 text-sm", onchange: "this.form.requestSubmit()" %>
-  <%= f.submit "Search", class: "rounded-md bg-gray-800 px-4 py-2 text-sm text-white cursor-pointer" %>
+        { selected: @country }, class: "rounded-md border-gray-300 dark:border-gray-700 text-sm", onchange: "this.form.requestSubmit()" %>
+  <%= f.submit "Search", class: "rounded-md bg-gray-800 dark:bg-gray-700 px-4 py-2 text-sm text-white cursor-pointer" %>
 <% end %>
 
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -17,11 +17,11 @@
         page on another origin, which Turbo's fetch cannot follow. %>
     <%= button_to bank_connections_path(institution_id: institution["id"], country: @country), method: :post,
           form: { data: { turbo: false } },
-          class: "w-full rounded-lg bg-white border border-gray-200 p-4 flex items-center gap-3 hover:border-emerald-500 text-left" do %>
+          class: "w-full rounded-lg bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 p-4 flex items-center gap-3 hover:border-emerald-500 text-left" do %>
       <% if institution["logo"].present? %>
         <%= image_tag institution["logo"], class: "h-8 w-8 rounded", alt: "" %>
       <% end %>
-      <span class="text-sm font-medium text-gray-900"><%= institution["name"] %></span>
+      <span class="text-sm font-medium text-gray-900 dark:text-gray-100"><%= institution["name"] %></span>
     <% end %>
   <% end %>
 </div>

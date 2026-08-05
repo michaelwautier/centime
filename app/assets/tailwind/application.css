@@ -1,1 +1,13 @@
 @import "tailwindcss";
+
+/* Class-based dark mode: the theme controller toggles .dark on <html>,
+   so the user can force a theme instead of only following the system. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+html {
+  color-scheme: light;
+}
+
+html.dark {
+  color-scheme: dark;
+}
