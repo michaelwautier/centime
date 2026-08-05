@@ -2,22 +2,22 @@
 
 <h1 class="text-2xl font-bold mb-6">Subscription</h1>
 
-<div class="max-w-xl rounded-lg bg-white border border-gray-200 p-6">
+<div class="max-w-xl rounded-lg bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 p-6">
   <% if @entitlements.pro? %>
     <div class="flex items-center gap-2 mb-3">
-      <span class="rounded-full bg-emerald-100 text-emerald-800 text-xs font-medium px-2.5 py-1">Pro</span>
-      <p class="text-sm text-gray-600">Unlimited bank connections. Thank you for supporting Centime!</p>
+      <span class="rounded-full bg-emerald-100 dark:bg-emerald-900 text-emerald-800 dark:text-emerald-300 text-xs font-medium px-2.5 py-1">Pro</span>
+      <p class="text-sm text-gray-600 dark:text-gray-400">Unlimited bank connections. Thank you for supporting Centime!</p>
     </div>
     <%= button_to "Manage billing", billing_portal_subscription_path, method: :post,
-          class: "rounded-md border border-gray-300 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50" %>
+          class: "rounded-md border border-gray-300 dark:border-gray-700 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800" %>
   <% else %>
     <div class="flex items-center gap-2 mb-3">
-      <span class="rounded-full bg-gray-100 text-gray-700 text-xs font-medium px-2.5 py-1">Free</span>
-      <p class="text-sm text-gray-600">One bank connection included.</p>
+      <span class="rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 text-xs font-medium px-2.5 py-1">Free</span>
+      <p class="text-sm text-gray-600 dark:text-gray-400">One bank connection included.</p>
     </div>
-    <div class="border-t border-gray-100 pt-4 mt-4">
-      <h2 class="font-semibold text-gray-900 mb-1">Centime Pro</h2>
-      <ul class="text-sm text-gray-600 list-disc pl-5 mb-4 space-y-1">
+    <div class="border-t border-gray-100 dark:border-gray-800 pt-4 mt-4">
+      <h2 class="font-semibold text-gray-900 dark:text-gray-100 mb-1">Centime Pro</h2>
+      <ul class="text-sm text-gray-600 dark:text-gray-400 list-disc pl-5 mb-4 space-y-1">
         <li>Connect as many banks as you like</li>
         <li>All accounts synced daily, automatically</li>
       </ul>

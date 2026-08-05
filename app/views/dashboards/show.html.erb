@@ -7,34 +7,34 @@
 </div>
 
 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-  <div class="rounded-lg bg-white border border-gray-200 p-5">
-    <p class="text-sm text-gray-500">Income</p>
-    <p class="mt-1 text-2xl font-semibold text-emerald-600 tabular-nums"><%= format_cents(@summary.totals.income_cents) %></p>
+  <div class="rounded-lg bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 p-5">
+    <p class="text-sm text-gray-500 dark:text-gray-400">Income</p>
+    <p class="mt-1 text-2xl font-semibold text-emerald-600 dark:text-emerald-400 tabular-nums"><%= format_cents(@summary.totals.income_cents) %></p>
   </div>
-  <div class="rounded-lg bg-white border border-gray-200 p-5">
-    <p class="text-sm text-gray-500">Expenses</p>
-    <p class="mt-1 text-2xl font-semibold text-gray-900 tabular-nums"><%= format_cents(@summary.totals.expense_cents) %></p>
+  <div class="rounded-lg bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 p-5">
+    <p class="text-sm text-gray-500 dark:text-gray-400">Expenses</p>
+    <p class="mt-1 text-2xl font-semibold text-gray-900 dark:text-gray-100 tabular-nums"><%= format_cents(@summary.totals.expense_cents) %></p>
   </div>
-  <div class="rounded-lg bg-white border border-gray-200 p-5">
-    <p class="text-sm text-gray-500">Net</p>
-    <p class="mt-1 text-2xl font-semibold tabular-nums <%= @summary.totals.net_cents.negative? ? "text-red-600" : "text-emerald-600" %>">
+  <div class="rounded-lg bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 p-5">
+    <p class="text-sm text-gray-500 dark:text-gray-400">Net</p>
+    <p class="mt-1 text-2xl font-semibold tabular-nums <%= @summary.totals.net_cents.negative? ? "text-red-600 dark:text-red-400" : "text-emerald-600 dark:text-emerald-400" %>">
       <%= format_cents(@summary.totals.net_cents) %>
     </p>
   </div>
 </div>
 
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-  <div class="rounded-lg bg-white border border-gray-200 p-5">
-    <h2 class="text-sm font-medium text-gray-700 mb-4">Expenses by category</h2>
+  <div class="rounded-lg bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 p-5">
+    <h2 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-4">Expenses by category</h2>
     <% breakdown = @summary.expense_breakdown %>
     <% if breakdown.any? %>
       <%= pie_chart breakdown.transform_values { |cents| (cents / 100.0).round(2) }, thousands: " ", donut: true %>
     <% else %>
-      <p class="text-sm text-gray-400 py-10 text-center">No expenses this month yet.</p>
+      <p class="text-sm text-gray-400 dark:text-gray-500 py-10 text-center">No expenses this month yet.</p>
     <% end %>
   </div>
-  <div class="rounded-lg bg-white border border-gray-200 p-5">
-    <h2 class="text-sm font-medium text-gray-700 mb-4">Last 6 months</h2>
+  <div class="rounded-lg bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 p-5">
+    <h2 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-4">Last 6 months</h2>
     <%= column_chart [
           { name: "Income", data: @summary.trend.map { |month, row| [ l(month, format: "%b"), (row[:income_cents] / 100.0).round(2) ] } },
           { name: "Expenses", data: @summary.trend.map { |month, row| [ l(month, format: "%b"), (row[:expense_cents] / 100.0).round(2) ] } }
@@ -42,24 +42,24 @@
   </div>
 </div>
 
-<div class="rounded-lg bg-white border border-gray-200">
-  <div class="flex items-center justify-between px-5 py-4 border-b border-gray-100">
-    <h2 class="text-sm font-medium text-gray-700">Recent transactions</h2>
-    <%= link_to "View all", transactions_path, class: "text-sm text-emerald-700 hover:underline" %>
+<div class="rounded-lg bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800">
+  <div class="flex items-center justify-between px-5 py-4 border-b border-gray-100 dark:border-gray-800">
+    <h2 class="text-sm font-medium text-gray-700 dark:text-gray-300">Recent transactions</h2>
+    <%= link_to "View all", transactions_path, class: "text-sm text-emerald-700 dark:text-emerald-400 hover:underline" %>
   </div>
   <% if @recent_transactions.any? %>
     <ul>
       <% @recent_transactions.each do |transaction| %>
-        <li class="flex items-center justify-between px-5 py-3 border-b border-gray-50 last:border-0">
+        <li class="flex items-center justify-between px-5 py-3 border-b border-gray-50 dark:border-gray-800 last:border-0">
           <div>
-            <p class="text-sm font-medium text-gray-900"><%= transaction.display_name %></p>
-            <p class="text-xs text-gray-500"><%= l transaction.booked_on %> · <%= transaction.category&.name || "Uncategorized" %></p>
+            <p class="text-sm font-medium text-gray-900 dark:text-gray-100"><%= transaction.display_name %></p>
+            <p class="text-xs text-gray-500 dark:text-gray-400"><%= l transaction.booked_on %> · <%= transaction.category&.name || "Uncategorized" %></p>
           </div>
           <%= amount_tag(transaction) %>
         </li>
       <% end %>
     </ul>
   <% else %>
-    <p class="text-sm text-gray-400 px-5 py-8 text-center">Nothing yet — add your first transaction.</p>
+    <p class="text-sm text-gray-400 dark:text-gray-500 px-5 py-8 text-center">Nothing yet — add your first transaction.</p>
   <% end %>
 </div>

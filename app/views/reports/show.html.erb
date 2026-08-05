@@ -5,15 +5,15 @@
   <div class="flex items-center gap-3">
     <%= form_with url: reports_path, method: :get do |f| %>
       <%= f.month_field :month, value: @month.strftime("%Y-%m"), onchange: "this.form.requestSubmit()",
-            class: "rounded-md border-gray-300 text-sm" %>
+            class: "rounded-md border-gray-300 dark:border-gray-700 text-sm" %>
     <% end %>
     <%= link_to "Export CSV", transactions_path(format: :csv, month: @month.strftime("%Y-%m")),
-          class: "rounded-md border border-gray-300 px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50" %>
+          class: "rounded-md border border-gray-300 dark:border-gray-700 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800" %>
   </div>
 </div>
 
-<div class="rounded-lg bg-white border border-gray-200 p-5 mb-6">
-  <h2 class="text-sm font-medium text-gray-700 mb-4">Income vs expenses — last 12 months</h2>
+<div class="rounded-lg bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 p-5 mb-6">
+  <h2 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-4">Income vs expenses — last 12 months</h2>
   <%= column_chart [
         { name: "Income", data: @summary.trend(months: 12).map { |month, row| [ l(month, format: "%b %y"), (row[:income_cents] / 100.0).round(2) ] } },
         { name: "Expenses", data: @summary.trend(months: 12).map { |month, row| [ l(month, format: "%b %y"), (row[:expense_cents] / 100.0).round(2) ] } }
@@ -22,32 +22,32 @@
 
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
   <% { "Expenses" => @breakdown.expenses, "Income" => @breakdown.incomes }.each do |heading, rows| %>
-    <div class="rounded-lg bg-white border border-gray-200">
-      <h2 class="text-sm font-medium text-gray-700 px-5 py-4 border-b border-gray-100"><%= heading %> · <%= l @month, format: "%B %Y" %></h2>
+    <div class="rounded-lg bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800">
+      <h2 class="text-sm font-medium text-gray-700 dark:text-gray-300 px-5 py-4 border-b border-gray-100 dark:border-gray-800"><%= heading %> · <%= l @month, format: "%B %Y" %></h2>
       <% if rows.any? %>
         <table class="min-w-full text-sm">
           <tbody>
             <% rows.each do |row| %>
-              <tr class="border-b border-gray-50 last:border-0">
+              <tr class="border-b border-gray-50 dark:border-gray-800 last:border-0">
                 <td class="px-5 py-3">
                   <%= link_to transactions_path(month: @month.strftime("%Y-%m")), class: "hover:underline flex items-center gap-2" do %>
                     <% if row.category %>
                       <span class="inline-block h-2.5 w-2.5 rounded-full" style="background-color: <%= row.category.color %>"></span>
                       <%= row.category.name %>
                     <% else %>
-                      <span class="inline-block h-2.5 w-2.5 rounded-full bg-gray-300"></span>
+                      <span class="inline-block h-2.5 w-2.5 rounded-full bg-gray-300 dark:bg-gray-600"></span>
                       Uncategorized
                     <% end %>
                   <% end %>
                 </td>
-                <td class="px-5 py-3 text-gray-500 text-xs"><%= row.count %> transactions</td>
+                <td class="px-5 py-3 text-gray-500 dark:text-gray-400 text-xs"><%= row.count %> transactions</td>
                 <td class="px-5 py-3 text-right font-medium tabular-nums"><%= format_cents(row.cents.abs) %></td>
               </tr>
             <% end %>
           </tbody>
         </table>
       <% else %>
-        <p class="text-sm text-gray-400 px-5 py-8 text-center">Nothing this month.</p>
+        <p class="text-sm text-gray-400 dark:text-gray-500 px-5 py-8 text-center">Nothing this month.</p>
       <% end %>
     </div>
   <% end %>

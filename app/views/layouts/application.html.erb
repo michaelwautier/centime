@@ -9,6 +9,16 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
+    <%# Apply the theme before first paint to avoid a flash of the wrong one.
+        localStorage "theme": "light" | "dark"; absent = follow the system. %>
+    <script>
+      {
+        const theme = localStorage.getItem("theme")
+        document.documentElement.classList.toggle("dark",
+          theme === "dark" || (!theme && matchMedia("(prefers-color-scheme: dark)").matches))
+      }
+    </script>
+
     <%= yield :head %>
 
     <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
@@ -23,25 +33,30 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body class="bg-gray-50 min-h-screen">
+  <body class="bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 min-h-screen" data-controller="theme">
     <%# The native shells provide their own tab bar — hide web chrome there. %>
     <% if user_signed_in? && !turbo_native_app? %>
-      <nav class="bg-white border-b border-gray-200">
+      <nav class="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
         <div class="container mx-auto px-5 h-14 flex items-center justify-between">
           <div class="flex items-center gap-6">
-            <%= link_to "Centime", root_path, class: "font-bold text-lg text-emerald-700" %>
-            <%= link_to "Dashboard", root_path, class: "text-sm text-gray-600 hover:text-gray-900" %>
-            <%= link_to "Transactions", transactions_path, class: "text-sm text-gray-600 hover:text-gray-900" %>
-            <%= link_to "Reports", reports_path, class: "text-sm text-gray-600 hover:text-gray-900" %>
-            <%= link_to "Categories", categories_path, class: "text-sm text-gray-600 hover:text-gray-900" %>
-            <%= link_to "Banks", bank_connections_path, class: "text-sm text-gray-600 hover:text-gray-900" %>
-            <%= link_to "Rules", categorization_rules_path, class: "text-sm text-gray-600 hover:text-gray-900" %>
+            <%= link_to "Centime", root_path, class: "font-bold text-lg text-emerald-700 dark:text-emerald-400" %>
+            <%= link_to "Dashboard", root_path, class: "text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100" %>
+            <%= link_to "Transactions", transactions_path, class: "text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100" %>
+            <%= link_to "Reports", reports_path, class: "text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100" %>
+            <%= link_to "Categories", categories_path, class: "text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100" %>
+            <%= link_to "Banks", bank_connections_path, class: "text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100" %>
+            <%= link_to "Rules", categorization_rules_path, class: "text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100" %>
           </div>
           <div class="flex items-center gap-4">
-            <%= link_to "Plan", subscription_path, class: "text-sm text-gray-600 hover:text-gray-900" %>
-            <span class="text-sm text-gray-500"><%= current_user.email %></span>
+            <%= link_to "Plan", subscription_path, class: "text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100" %>
+            <%= select_tag :theme,
+                  options_for_select([ [ "Auto", "auto" ], [ "Light", "light" ], [ "Dark", "dark" ] ]),
+                  title: "Theme",
+                  class: "rounded-md border-gray-300 dark:border-gray-700 text-sm py-1 pr-8 bg-transparent text-gray-600 dark:text-gray-400",
+                  data: { theme_target: "select", action: "change->theme#change" } %>
+            <span class="text-sm text-gray-500 dark:text-gray-400"><%= current_user.email %></span>
             <%= button_to "Sign out", destroy_user_session_path, method: :delete,
-                  class: "text-sm text-gray-600 hover:text-gray-900" %>
+                  class: "text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100" %>
           </div>
         </div>
       </nav>
@@ -49,7 +64,7 @@
 
     <main class="container mx-auto mt-8 px-5 pb-16">
       <% flash.each do |type, message| %>
-        <div class="mb-4 rounded-md px-4 py-3 text-sm <%= type.to_s == "alert" ? "bg-red-50 text-red-800" : "bg-emerald-50 text-emerald-800" %>">
+        <div class="mb-4 rounded-md px-4 py-3 text-sm <%= type.to_s == "alert" ? "bg-red-50 dark:bg-red-950 text-red-800 dark:text-red-300" : "bg-emerald-50 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300" %>">
           <%= message %>
         </div>
       <% end %>

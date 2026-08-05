@@ -1,9 +1,9 @@
-<tr id="<%= dom_id(transaction) %>" class="border-b border-gray-50 last:border-0">
-  <td class="px-5 py-3 whitespace-nowrap text-gray-500"><%= l transaction.booked_on %></td>
+<tr id="<%= dom_id(transaction) %>" class="border-b border-gray-50 dark:border-gray-800 last:border-0">
+  <td class="px-5 py-3 whitespace-nowrap text-gray-500 dark:text-gray-400"><%= l transaction.booked_on %></td>
   <td class="px-5 py-3">
-    <p class="font-medium text-gray-900"><%= transaction.display_name %></p>
+    <p class="font-medium text-gray-900 dark:text-gray-100"><%= transaction.display_name %></p>
     <% if transaction.merchant_name.present? && transaction.description.present? %>
-      <p class="text-xs text-gray-500"><%= transaction.description %></p>
+      <p class="text-xs text-gray-500 dark:text-gray-400"><%= transaction.description %></p>
     <% end %>
   </td>
   <td class="px-5 py-3">
@@ -15,25 +15,25 @@
                 :id, :name, transaction.category_id
               ),
               { include_blank: "Uncategorized" },
-              class: "rounded-md border-gray-300 text-sm py-1",
+              class: "rounded-md border-gray-300 dark:border-gray-700 text-sm py-1",
               data: { action: "change->autosubmit#submit" } %>
         <% unless transaction.categorized_by_manual? || transaction.categorized_by_none? %>
-          <span class="text-[10px] uppercase tracking-wide rounded bg-blue-50 text-blue-700 px-1.5 py-0.5">auto</span>
+          <span class="text-[10px] uppercase tracking-wide rounded bg-blue-50 dark:bg-blue-950 text-blue-700 dark:text-blue-300 px-1.5 py-0.5">auto</span>
         <% end %>
       </div>
     <% end %>
     <% if (suggestion = local_assigns[:suggestions]&.[](transaction.id)) %>
       <%= button_to transaction_path(transaction), method: :patch,
             params: { transaction: { category_id: suggestion.id } },
-            class: "mt-1 text-xs rounded-full border border-dashed border-emerald-400 text-emerald-700 px-2 py-0.5 hover:bg-emerald-50" do %>
+            class: "mt-1 text-xs rounded-full border border-dashed border-emerald-400 text-emerald-700 dark:text-emerald-400 px-2 py-0.5 hover:bg-emerald-50 dark:hover:bg-emerald-950" do %>
         Suggested: <%= suggestion.name %>
       <% end %>
     <% end %>
   </td>
   <td class="px-5 py-3 text-right"><%= amount_tag(transaction) %></td>
   <td class="px-5 py-3 text-right whitespace-nowrap">
-    <%= link_to "Edit", edit_transaction_path(transaction), class: "text-gray-400 hover:text-gray-700 text-xs", data: { turbo_frame: "_top" } %>
+    <%= link_to "Edit", edit_transaction_path(transaction), class: "text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 text-xs", data: { turbo_frame: "_top" } %>
     <%= button_to "Delete", transaction_path(transaction), method: :delete, form: { data: { turbo_confirm: "Delete this transaction?" }, class: "inline" },
-          class: "text-gray-400 hover:text-red-600 text-xs ml-2" %>
+          class: "text-gray-400 dark:text-gray-500 hover:text-red-600 dark:hover:text-red-400 text-xs ml-2" %>
   </td>
 </tr>
