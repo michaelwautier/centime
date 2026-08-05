@@ -256,7 +256,7 @@ GEM
     parser (3.3.12.0)
       ast (~> 2.4.1)
       racc
-    pay (11.6.2)
+    pay (11.7.0)
       rails (>= 7.0.0)
     pg (1.6.3)
     pg (1.6.3-aarch64-linux)
@@ -492,7 +492,7 @@ DEPENDENCIES
   hotwire_native_rails (~> 0.4.4)
   importmap-rails
   kamal
-  pay (~> 11.6)
+  pay (~> 11.7)
   pg (~> 1.1)
   propshaft
   puma (>= 5.0)
@@ -605,7 +605,7 @@ CHECKSUMS
   pagy (43.6.1) sha256=59fb6a58ea956480094a167b43a86796638ceb3a3917a25ae67973b584ace2eb
   parallel (2.1.0) sha256=b35258865c2e31134c5ecb708beaaf6772adf9d5efae28e93e99260877b09356
   parser (3.3.12.0) sha256=21a6d7f755d5a24dfbdc6e6b772e4e879a52e7631a88bc5a3a134606052c9828
-  pay (11.6.2) sha256=dd5f57f58c94528923c1b063e1f905e28b48060ff402deffbd1235cd78dbc887
+  pay (11.7.0) sha256=b6eb425136c7a70051d09b822199e889232271a805a98d7675c075282271675b
   pg (1.6.3) sha256=1388d0563e13d2758c1089e35e973a3249e955c659592d10e5b77c468f628a99
   pg (1.6.3-aarch64-linux) sha256=0698ad563e02383c27510b76bf7d4cd2de19cd1d16a5013f375dd473e4be72ea
   pg (1.6.3-aarch64-linux-musl) sha256=06a75f4ea04b05140146f2a10550b8e0d9f006a79cdaf8b5b130cde40e3ecc2c

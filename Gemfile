@@ -73,7 +73,7 @@ end
 gem "devise", "~> 5.0"
 gem "chartkick", "~> 5.2"
 
-gem "pay", "~> 11.6"
+gem "pay", "~> 11.7"
 gem "stripe", "~> 19.3"
 
 gem "csv", "~> 3.3"
