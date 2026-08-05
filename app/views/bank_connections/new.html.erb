@@ -13,7 +13,10 @@
 
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
   <% Array(@institutions).each do |institution| %>
+    <%# Native submit (no Turbo): the response redirects to the bank's consent
+        page on another origin, which Turbo's fetch cannot follow. %>
     <%= button_to bank_connections_path(institution_id: institution["id"], country: @country), method: :post,
+          form: { data: { turbo: false } },
           class: "w-full rounded-lg bg-white border border-gray-200 p-4 flex items-center gap-3 hover:border-emerald-500 text-left" do %>
       <% if institution["logo"].present? %>
         <%= image_tag institution["logo"], class: "h-8 w-8 rounded", alt: "" %>

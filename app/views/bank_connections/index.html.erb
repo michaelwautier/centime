@@ -48,6 +48,7 @@
           <div class="flex items-center gap-2">
             <% if connection.status_expiring? || connection.status_expired? %>
               <%= button_to "Reconnect", bank_connections_path(institution_id: connection.institution_id), method: :post,
+                    form: { data: { turbo: false } },
                     class: "rounded-md bg-amber-500 px-3 py-1.5 text-sm text-white hover:bg-amber-600" %>
             <% end %>
             <% if connection.manual_sync_available? %>
