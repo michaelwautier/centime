@@ -74,7 +74,7 @@ gem "devise", "~> 5.0"
 gem "chartkick", "~> 5.2"
 
 gem "pay", "~> 11.7"
-gem "stripe", "~> 19.4"
+gem "stripe", "~> 19.5"
 
 gem "csv", "~> 3.3"
 gem "avo", "~> 4.0"
