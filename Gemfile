@@ -77,7 +77,7 @@ gem "pay", "~> 11.7"
 gem "stripe", "~> 19.4"
 
 gem "csv", "~> 3.3"
-gem "avo", "~> 4.0"
+gem "avo", "~> 4.1"
 
 gem "hotwire_native_rails", "~> 0.4.4"
 
